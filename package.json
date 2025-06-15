@@ -33,6 +33,7 @@
 		"vite": "^6.2.6"
 	},
 	"dependencies": {
+		"@types/bun": "^1.2.16",
 		"drizzle-orm": "^0.40.0",
 		"postgres": "^3.4.5"
 	}
