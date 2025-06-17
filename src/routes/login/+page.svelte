@@ -38,7 +38,9 @@
 					document.getElementById('password')?.focus();
 				} else if (document.activeElement?.id === 'password') {
 					login();
-				}
+				} else {
+                    document.getElementById('username')?.focus();
+                }
 			}
 		});
 	});
