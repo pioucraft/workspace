@@ -24,7 +24,10 @@
 				throw new Error('Login failed');
 			}
 
-			goto('/');
+            localStorage.setItem('username', username);
+            localStorage.setItem('password', btoa(password));
+
+            goto('/'); // Redirect to the home page after successful login
 		} catch (error) {
 			console.error('Error:', error);
 			alert('Login failed. Please try again.');
