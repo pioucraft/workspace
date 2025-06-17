@@ -27,6 +27,7 @@
         <button class="w-[420px] h-10 bg-slate-600 cursor-pointer rounded-full text-white font-semibold mt-5 hover:bg-slate-500 transition-colors duration-300">
             Sign in
         </button>
+        <button class="bg-ctp-pink">Hi</button>
     </div>
 </div>
 
