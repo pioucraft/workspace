@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
+
     var password = '';
     var username = '';
 
@@ -20,6 +22,8 @@
             if (!response.ok) {
                 throw new Error('Login failed');
             }
+            
+            goto("/")
         } catch (error) {
             console.error('Error:', error);
             alert('Login failed. Please try again.');
