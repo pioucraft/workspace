@@ -1,10 +1,12 @@
+import type { folderContentType } from '$lib/types/fileSystem';
 import { statSync, readFileSync, readdirSync, writeFileSync, renameSync, mkdirSync } from 'fs';
+import { normalize } from 'path';
 
 export function readFileOrFolder(path: string): {
     fileContent?: string;
-    folderContent?: { name: string; isDirectory: boolean }[];
+    folderContent?: folderContentType[];
 } {
-    let formatedPath = './data' + path;
+    let formatedPath = './data/' + path;
 
     const stats = statSync(formatedPath);
     if (stats.isFile()) {
@@ -12,12 +14,12 @@ export function readFileOrFolder(path: string): {
         return { fileContent };
     } else if (stats.isDirectory()) {
         const folder = readdirSync(formatedPath);
-        let folderContent: { name: string; isDirectory: boolean }[] = [];
+        let folderContent: folderContentType[] = [];
 
         for (const item of folder) {
-            const itemPath = `${path}/${item}`;
+            const itemPath = normalize(`/${path}/${item}`)
             const itemStats = statSync(`./data/${itemPath}`);
-            folderContent.push({ name: item, isDirectory: itemStats.isDirectory() });
+            folderContent.push({ path: itemPath, name: item, isDirectory: itemStats.isDirectory() });
         }
 
         return { folderContent };
