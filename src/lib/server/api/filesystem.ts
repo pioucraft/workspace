@@ -3,51 +3,51 @@ import { statSync, readFileSync, readdirSync, writeFileSync, renameSync, mkdirSy
 import { normalize } from 'path';
 
 export function readFileOrFolder(path: string): {
-    fileContent?: string;
-    folderContent?: folderContentType[];
+	fileContent?: string;
+	folderContent?: folderContentType[];
 } {
-    let formatedPath = './data/' + path;
+	let formatedPath = './data/' + path;
 
-    const stats = statSync(formatedPath);
-    if (stats.isFile()) {
-        const fileContent = readFileSync(formatedPath, 'utf-8');
-        return { fileContent };
-    } else if (stats.isDirectory()) {
-        const folder = readdirSync(formatedPath);
-        let folderContent: folderContentType[] = [];
+	const stats = statSync(formatedPath);
+	if (stats.isFile()) {
+		const fileContent = readFileSync(formatedPath, 'utf-8');
+		return { fileContent };
+	} else if (stats.isDirectory()) {
+		const folder = readdirSync(formatedPath);
+		let folderContent: folderContentType[] = [];
 
-        for (const item of folder) {
-            const itemPath = normalize(`/${path}/${item}`)
-            const itemStats = statSync(`./data/${itemPath}`);
-            folderContent.push({ path: itemPath, name: item, isDirectory: itemStats.isDirectory() });
-        }
+		for (const item of folder) {
+			const itemPath = normalize(`/${path}/${item}`);
+			const itemStats = statSync(`./data/${itemPath}`);
+			folderContent.push({ path: itemPath, name: item, isDirectory: itemStats.isDirectory() });
+		}
 
-        return { folderContent };
-    }
-    throw new Error('Path does not exist');
+		return { folderContent };
+	}
+	throw new Error('Path does not exist');
 }
 
 export function modifyFileContent(path: string, content: string) {
-    let formatedPath = './data' + path;
+	let formatedPath = './data' + path;
 
-    writeFileSync(formatedPath, content, 'utf-8');
+	writeFileSync(formatedPath, content, 'utf-8');
 }
 
 export function moveFileOrFolder(source: string, destination: string) {
-    let formatedSource = './data' + source;
-    let formatedDestination = './data' + destination;
+	let formatedSource = './data' + source;
+	let formatedDestination = './data' + destination;
 
-    renameSync(formatedSource, formatedDestination);
+	renameSync(formatedSource, formatedDestination);
 }
 
 export function createFile(path: string) {
-    let formatedPath = './data' + path;
+	let formatedPath = './data' + path;
 
-    writeFileSync(formatedPath, '', 'utf-8');
+	writeFileSync(formatedPath, '', 'utf-8');
 }
 
 export function createFolder(path: string) {
-    let formatedPath = './data' + path;
+	let formatedPath = './data' + path;
 
-    mkdirSync(formatedPath, { recursive: true });
+	mkdirSync(formatedPath, { recursive: true });
 }

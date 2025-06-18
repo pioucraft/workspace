@@ -36,22 +36,50 @@
 >
 	<div class="bg-ctp-base row-span-2 rounded-3xl"></div>
 
-	<div class="bg-ctp-base rounded-3xl"></div>
+	<div class="bg-ctp-base rounded-3xl p-5">
+		<button
+			class="text-ctp-text cursor-pointer"
+			onclick={() => {
+				let newPath: any = path.split('/');
+				newPath.pop();
+				path = newPath.join('/');
 
-	<div class="bg-ctp-base rounded-3xl">
+				// make sure there's a leading slash
+				if (!path.startsWith('/')) {
+					path = '/' + path;
+				}
+
+				goto(`${page.url.origin}${path}`, {
+					invalidateAll: true,
+					replaceState: true
+				});
+
+				loadFolderContent();
+			}}>&#60;-</button
+		>
+	</div>
+
+	<div
+		class="bg-ctp-base grid auto-cols-[100px] grid-flow-col auto-rows-[100px] gap-5 rounded-3xl p-5"
+	>
 		{#each folderContent as fileOrFolder}
 			<button
 				onclick={() => {
-					goto(`${page.url.origin}${fileOrFolder.path}`);
-                    path = fileOrFolder.path;
+					goto(`${page.url.origin}${fileOrFolder.path}`, {
+						invalidateAll: true,
+						replaceState: true
+					});
+					path = fileOrFolder.path;
 					loadFolderContent();
 				}}
+				class="border-ctp-surface1 hover:bg-ctp-surface2 text-ctp-text flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 p-2 transition-colors"
 			>
 				{#if fileOrFolder.isDirectory}
 					<Folder />
 				{:else}
 					<Document />
 				{/if}
+				<span class="text-ctp-text text-sm">{fileOrFolder.name}</span>
 			</button>
 		{/each}
 	</div>

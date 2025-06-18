@@ -7,10 +7,6 @@
 	let { children } = $props();
 
 	onMount(async () => {
-		if (window.location.pathname.startsWith('/login')) {
-			return;
-		}
-
 		let localPassword = localStorage.getItem('password');
 		password.set(atob(localPassword || ''));
 
@@ -26,7 +22,7 @@
 					},
 					body: JSON.stringify({
 						username: localUsername,
-						password: atob(localPassword) 
+						password: atob(localPassword)
 					})
 				});
 
