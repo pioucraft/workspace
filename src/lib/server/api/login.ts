@@ -10,3 +10,14 @@ export async function login(username: string, password: string): Promise<boolean
     }
     return await Bun.password.verify(password, storedPasswordHash)
 }
+
+export async function loginMiddleware(request: Request): Promise<boolean> {
+    const username = request.headers.get("username");
+    const password = request.headers.get("password");
+
+    if (!username || !password) {
+        return false; // Missing credentials
+    }
+
+    return await login(username, password);
+}

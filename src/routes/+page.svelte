@@ -4,7 +4,14 @@
 
 	var folderContent = [];
 
-	onLoginConfirm(async () => {});
+	onLoginConfirm(async () => {
+		const folderContentFetch = await fetch('/api/filesystem', {
+			headers: {
+				password: $password,
+				username: $username
+			}
+		});
+	});
 </script>
 
 <div
