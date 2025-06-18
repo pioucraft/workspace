@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import { goto } from '$app/navigation';
+	import { password, username } from '$lib/store/credentials';
 
 	let { children } = $props();
 
@@ -9,18 +10,24 @@
 		if (window.location.pathname.startsWith('/login')) {
 			return;
 		}
-		let password = localStorage.getItem('password') || '';
-		let username = localStorage.getItem('username') || '';
-		password = atob(password);
 
-		if (username && password) {
+		let localPassword = localStorage.getItem('password');
+		password.set(atob(localPassword || ''));
+
+		let localUsername = localStorage.getItem('username');
+		username.set(localUsername || '');
+
+		if (localPassword && localUsername) {
 			try {
 				const response = await fetch('/api/login', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
 					},
-					body: JSON.stringify({ username, password })
+					body: JSON.stringify({
+						username: localUsername,
+						password: atob(localPassword) 
+					})
 				});
 
 				if (!response.ok) {
@@ -32,8 +39,8 @@
 				alert('Login failed. Please try again.');
 			}
 		} else {
-            goto('/login');
-        }
+			goto('/login');
+		}
 	});
 </script>
 
