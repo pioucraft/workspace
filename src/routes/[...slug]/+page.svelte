@@ -72,7 +72,7 @@
 					path = fileOrFolder.path;
 					loadFolderContent();
 				}}
-				class="border-ctp-surface1 hover:bg-ctp-surface2 text-ctp-text flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 p-2 transition-colors"
+				class="border-ctp-surface1 hover:border-ctp-peach text-ctp-text flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 p-2 transition-colors"
 			>
 				{#if fileOrFolder.isDirectory}
 					<Folder />
