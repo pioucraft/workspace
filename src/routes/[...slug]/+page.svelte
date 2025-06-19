@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { onLoginConfirm } from '$lib/scripts/store';
-	import Folder from '$lib/components/svg/Folder.svelte';
-	import Document from '$lib/components/svg/Document.svelte';
 	import SideBar from '$lib/components/filesystem/SideBar.svelte';
 	import TopBar from '$lib/components/filesystem/TopBar.svelte';
-	import { loadFolderContent, navigateToPath } from '$lib/scripts/filesystem';
-	import { folderContent } from '$lib/store/filesystem';
+	import { loadFolderContent } from '$lib/scripts/filesystem';
+	import FolderView from '$lib/components/filesystem/view/FolderView.svelte';
 
 	onLoginConfirm(async () => {
 		await loadFolderContent();
@@ -22,24 +20,5 @@
 >
 	<SideBar />
 	<TopBar />
-
-	<div
-		class="bg-ctp-base hover:border-ctp-lavender border-ctp-surface1 grid h-full auto-cols-[100px] grid-flow-col auto-rows-[100px] gap-5 rounded-3xl border-2 p-5 transition-colors"
-	>
-		{#each $folderContent as fileOrFolder}
-			<button
-				onclick={() => {
-					navigateToPath(`${fileOrFolder.path}`);
-				}}
-				class="border-ctp-surface1 hover:border-ctp-peach text-ctp-text flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 p-2 transition-colors"
-			>
-				{#if fileOrFolder.isDirectory}
-					<Folder />
-				{:else}
-					<Document />
-				{/if}
-				<span class="text-ctp-text text-sm">{fileOrFolder.name}</span>
-			</button>
-		{/each}
-	</div>
+	<FolderView />
 </div>
