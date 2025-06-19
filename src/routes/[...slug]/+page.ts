@@ -1,10 +1,10 @@
-export function load({ params }: { params: { slug: string } }): { path: string } {
-    let slug = params.slug;
-    if (!slug.startsWith('/')) {
-        slug = '/' + slug;
-    }
+import { path } from '$lib/store/filesystem';
 
-    return {
-        path: slug
-    };
+export function load({ params }: { params: { slug: string } }) {
+	let slug = params.slug;
+	if (!slug.startsWith('/')) {
+		slug = '/' + slug;
+	}
+
+	path.set(slug);
 }
