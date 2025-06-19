@@ -1,12 +1,18 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import '../app.css';
 	import { goto } from '$app/navigation';
 	import { password, username } from '$lib/store/credentials';
+	import { page } from '$app/state';
 
 	let { children } = $props();
 
 	onMount(async () => {
+        await tick()
+		if (page.url.pathname.startsWith('/login')) {
+			return;
+		}
+
 		let localPassword = localStorage.getItem('password');
 		password.set(atob(localPassword || ''));
 
@@ -35,6 +41,7 @@
 				alert('Login failed. Please try again.');
 			}
 		} else {
+			console.log('No credentials found in localStorage');
 			goto('/login');
 		}
 	});
