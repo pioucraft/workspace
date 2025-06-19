@@ -7,11 +7,6 @@
 
 	onLoginConfirm(async () => {
 		await loadFolderContent();
-
-		window.addEventListener('contextmenu', (event) => {
-			event.preventDefault();
-			// Implement context menu logic here
-		});
 	});
 </script>
 

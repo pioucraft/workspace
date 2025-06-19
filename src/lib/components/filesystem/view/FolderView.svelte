@@ -3,6 +3,14 @@
 	import Folder from '$lib/components/svg/Folder.svelte';
 	import { navigateToPath } from '$lib/scripts/filesystem';
 	import { folderContent } from '$lib/store/filesystem';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		window.addEventListener('contextmenu', (event) => {
+			event.preventDefault();
+
+		});
+	});
 </script>
 
 <div
