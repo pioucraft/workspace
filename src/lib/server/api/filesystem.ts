@@ -49,5 +49,5 @@ export function createFile(path: string) {
 export function createFolder(path: string) {
 	let formatedPath = './data' + path;
 
-	mkdirSync(formatedPath, { recursive: true });
+	mkdirSync(formatedPath);
 }
