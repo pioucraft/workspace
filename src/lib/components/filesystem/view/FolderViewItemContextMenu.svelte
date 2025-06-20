@@ -33,27 +33,27 @@
 	}
 
 	async function remove() {
-        if( !confirm(`Are you sure you want to delete ${fileOrFolder.name}?`)) {
-            return;
-        }
-        const response = await fetch('/api/filesystem', {
-            method: 'DELETE',
-            headers: {
-                password: $password,
-                username: $username,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                path: fileOrFolder.path
-            })
-        });
-        if (!response.ok) {
-            const error = await response.json();
-            alert(`Error deleting: ${error.error}`);
-        } else {
-            loadFolderContent();
-        }
-    }
+		if (!confirm(`Are you sure you want to delete ${fileOrFolder.name}?`)) {
+			return;
+		}
+		const response = await fetch('/api/filesystem', {
+			method: 'DELETE',
+			headers: {
+				password: $password,
+				username: $username,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				path: fileOrFolder.path
+			})
+		});
+		if (!response.ok) {
+			const error = await response.json();
+			alert(`Error deleting: ${error.error}`);
+		} else {
+			loadFolderContent();
+		}
+	}
 </script>
 
 <div class="bg-ctp-base border-ctp-surface1 flex min-w-36 flex-col gap-2 rounded-lg border-1 p-2">

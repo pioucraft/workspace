@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import ContextMenu from '$lib/components/components/ContextMenu.svelte';
 	import Document from '$lib/components/svg/Document.svelte';
 	import Folder from '$lib/components/svg/Folder.svelte';
@@ -19,19 +19,19 @@
 	/>
 
 	{#each $folderContent as fileOrFolder, i}
-        <ContextMenu
-            parentsQuery={`#folderViewItem-${i}`}
-            Element={FolderViewItemContextMenu}
-            props={{
-                fileOrFolder: fileOrFolder
-            }}
-        />
+		<ContextMenu
+			parentsQuery={`#folderViewItem-${i}`}
+			Element={FolderViewItemContextMenu}
+			props={{
+				fileOrFolder: fileOrFolder
+			}}
+		/>
 		<button
 			onclick={() => {
 				navigateToPath(`${fileOrFolder.path}`);
 			}}
 			class="border-ctp-surface1 hover:border-ctp-peach text-ctp-text fileOrFolder float-left m-3 flex h-36 w-36 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 p-2 transition-colors"
-            id="folderViewItem-{i}"
+			id="folderViewItem-{i}"
 		>
 			{#if fileOrFolder.isDirectory}
 				<Folder />

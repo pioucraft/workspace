@@ -9,8 +9,8 @@
 		parentsQuery,
 		Element,
 		negativeQuery,
-        props
-	}: { parentsQuery: string; Element: Component; negativeQuery?: string, props?: any} = $props();
+		props
+	}: { parentsQuery: string; Element: Component; negativeQuery?: string; props?: any } = $props();
 
 	onMount(() => {
 		window.addEventListener('contextmenu', (event) => {

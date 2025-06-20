@@ -1,5 +1,13 @@
 import type { folderContentType } from '$lib/types/fileSystem';
-import { statSync, readFileSync, readdirSync, writeFileSync, renameSync, mkdirSync, rmSync } from 'fs';
+import {
+	statSync,
+	readFileSync,
+	readdirSync,
+	writeFileSync,
+	renameSync,
+	mkdirSync,
+	rmSync
+} from 'fs';
 import { normalize } from 'path';
 
 export function readFileOrFolder(path: string): {
@@ -53,7 +61,7 @@ export function createFolder(path: string) {
 }
 
 export function deleteFileOrFolder(path: string) {
-    let formatedPath = './data' + path;
+	let formatedPath = './data' + path;
 
-    rmSync(formatedPath, { recursive: true, force: true });
+	rmSync(formatedPath, { recursive: true, force: true });
 }
