@@ -3,8 +3,6 @@
 >
 	<div class="text-ctp-text p-5">
 		<ul>
-			<li>- Rename file/folder</li>
-			<li>- Delete file/folder</li>
 			<li>- Move file/folder</li>
 			<li>- Copy and paste file/folder</li>
 			<li>- Drag and drop file/folder</li>
