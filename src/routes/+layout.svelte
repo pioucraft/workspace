@@ -8,7 +8,7 @@
 	let { children } = $props();
 
 	onMount(async () => {
-        await tick()
+		await tick();
 		if (page.url.pathname.startsWith('/login')) {
 			return;
 		}

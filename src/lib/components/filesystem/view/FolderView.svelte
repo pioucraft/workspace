@@ -8,10 +8,10 @@
 </script>
 
 <div
-    id="folderView"
+	id="folderView"
 	class="bg-ctp-base hover:border-ctp-lavender border-ctp-surface1 h-full rounded-3xl border-2 p-5 transition-colors"
 >
-    <ContextMenu parentId={"folderView"} Element={FolderContextMenu}/>
+	<ContextMenu parentId={'folderView'} Element={FolderContextMenu} />
 	{#each $folderContent as fileOrFolder}
 		<button
 			onclick={() => {
@@ -28,4 +28,3 @@
 		</button>
 	{/each}
 </div>
-
