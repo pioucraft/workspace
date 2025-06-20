@@ -22,6 +22,9 @@
         <ContextMenu
             parentsQuery={`#folderViewItem-${i}`}
             Element={FolderViewItemContextMenu}
+            props={{
+                fileOrFolder: fileOrFolder
+            }}
         />
 		<button
 			onclick={() => {

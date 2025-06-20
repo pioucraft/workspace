@@ -8,8 +8,9 @@
 	var {
 		parentsQuery,
 		Element,
-		negativeQuery
-	}: { parentsQuery: string; Element: Component; negativeQuery?: string } = $props();
+		negativeQuery,
+        props
+	}: { parentsQuery: string; Element: Component; negativeQuery?: string, props?: any} = $props();
 
 	onMount(() => {
 		window.addEventListener('contextmenu', (event) => {
@@ -45,6 +46,6 @@
 
 {#if showContextMenu}
 	<div class="absolute z-50" style="top: {mouseY}px; left: {mouseX}px;">
-		<Element />
+		<Element {...props} />
 	</div>
 {/if}
