@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { password, username } from '$lib/store/credentials';
 	import { page } from '$app/state';
+	import Prompt from '$lib/components/components/Prompt.svelte';
 
 	let { children } = $props();
 
@@ -48,3 +49,5 @@
 </script>
 
 {@render children()}
+
+<Prompt />
