@@ -3,7 +3,6 @@
 >
 	<div class="text-ctp-text p-5">
 		<ul>
-			<li>- Create new file</li>
 			<li>- Custom prompt function for new file/folder</li>
 			<li>- Rename file/folder</li>
 			<li>- Delete file/folder</li>
