@@ -5,16 +5,32 @@
 	var mouseX = $state(0);
 	var mouseY = $state(0);
 
-	var { parentId, Element }: { parentId: string; Element: Component } = $props();
+	var {
+		parentsQuery,
+		Element,
+		negativeQuery
+	}: { parentsQuery: string; Element: Component; negativeQuery?: string } = $props();
 
 	onMount(() => {
-		const parent = document.getElementById(parentId);
-		if (!parent) {
-			console.error(`Element with id ${parentId} not found.`);
-			return;
-		}
+		window.addEventListener('contextmenu', (event) => {
+			const parents = document.querySelectorAll(parentsQuery);
+			for (let i = 0; i < parents.length; i++) {
+				if (!parents[i].contains(event.target as Node)) {
+					showContextMenu = false;
+					return; // Prevent context menu if clicked outside the specified parent elements
+				}
+			}
 
-		parent.addEventListener('contextmenu', (event) => {
+			if (negativeQuery) {
+				const negativeElements = document.querySelectorAll(negativeQuery);
+				for (let j = 0; j < negativeElements.length; j++) {
+					if (negativeElements[j].contains(event.target as Node)) {
+						showContextMenu = false;
+						return; // Prevent context menu if clicked on a negative element
+					}
+				}
+			}
+
 			event.preventDefault();
 			showContextMenu = true;
 			mouseX = event.clientX;
