@@ -6,7 +6,8 @@ import {
 	writeFileSync,
 	renameSync,
 	mkdirSync,
-	rmSync
+	rmSync,
+    cpSync
 } from 'fs';
 import { normalize } from 'path';
 
@@ -65,3 +66,11 @@ export function deleteFileOrFolder(path: string) {
 
 	rmSync(formatedPath, { recursive: true, force: true });
 }
+
+export function copyFileOrFolder(source: string, destination: string) {
+    let formatedSource = './data/' + source;
+    let formatedDestination = './data/' + destination;
+
+    cpSync(formatedSource, formatedDestination, { recursive: true, force: true });
+}
+
