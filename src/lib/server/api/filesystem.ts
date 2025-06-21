@@ -75,7 +75,6 @@ export function copyFileOrFolder(source: string, destination: string) {
 }
 
 export async function uploadFiles(path: string, files: File[]) {
-	console.log('Uploading files to:', path);
 	let formatedPath = './data/' + path;
 
 	for (const file of files) {
