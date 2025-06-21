@@ -2,11 +2,13 @@
 	import { password, username } from '$lib/store/credentials';
 	import { fileContent } from '$lib/store/filesystem';
 	import { path } from '$lib/store/filesystem';
+	import { onDestroy } from 'svelte';
 
 	let newFileContent = atob($fileContent);
 	let isSaved = true;
 
-	setInterval(async () => {
+	let newInterval = setInterval(async () => {
+        if($path)
 		if ($fileContent !== btoa(newFileContent)) {
             await fetch("/api/filesystem", {
                 method: "PUT",
@@ -24,6 +26,10 @@
 		}
 		isSaved = true;
 	}, 3000);
+
+    onDestroy(() => {
+        clearInterval(newInterval);
+    });
 </script>
 
 <div class="grid h-full w-full grid-rows-[2.5em_auto] gap-4">
