@@ -19,7 +19,7 @@ export function readFileOrFolder(path: string): {
 
 	const stats = statSync(formatedPath);
 	if (stats.isFile()) {
-		const fileContent = readFileSync(formatedPath, 'utf-8');
+		const fileContent = readFileSync(formatedPath, 'base64');
 		return { fileContent };
 	} else if (stats.isDirectory()) {
 		const folder = readdirSync(formatedPath);
