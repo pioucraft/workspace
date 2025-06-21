@@ -6,21 +6,21 @@ export const response: Writable<string> = writable('');
 export const currentResponse: Writable<string> = writable('');
 
 export async function ask(promptText: string, currentAnswer?: string): Promise<string> {
-    display.set(true);
-    text.set(promptText);
+	display.set(true);
+	text.set(promptText);
 
-    currentResponse.set(currentAnswer || '');
+	currentResponse.set(currentAnswer || '');
 
-    // wait until the user has entered a response (wait until the response variable is not empty)
-    return new Promise((resolve) => {
-        const interval = setInterval(() => {
-            if (get(response) !== '') {
-                clearInterval(interval);
-                display.set(false);
-                let responseText = get(response);
-                response.set(''); // Clear the response for the next prompt
-                resolve(responseText);
-            }
-        }, 50);
-    });
+	// wait until the user has entered a response (wait until the response variable is not empty)
+	return new Promise((resolve) => {
+		const interval = setInterval(() => {
+			if (get(response) !== '') {
+				clearInterval(interval);
+				display.set(false);
+				let responseText = get(response);
+				response.set(''); // Clear the response for the next prompt
+				resolve(responseText);
+			}
+		}, 50);
+	});
 }

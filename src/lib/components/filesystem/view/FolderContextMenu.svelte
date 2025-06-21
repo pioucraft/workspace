@@ -44,6 +44,42 @@
 		}
 		loadFolderContent();
 	}
+
+	async function uploadFile() {
+		const fileOrFolder = document.createElement('input');
+		fileOrFolder.type = 'file';
+		fileOrFolder.attributes.setNamedItem(document.createAttribute('multiple'));
+		fileOrFolder.attributes.setNamedItem(document.createAttribute('webkitdirectory'));
+		fileOrFolder.click();
+		fileOrFolder.onchange = async () => {
+			const formData = new FormData();
+			if (!fileOrFolder.files || fileOrFolder.files.length === 0) {
+				return;
+			}
+
+			for (const file of fileOrFolder.files) {
+				formData.append('files', file);
+			}
+			formData.append('path', get(path));
+
+			await fetch('/api/filesystem/upload', {
+				method: 'POST',
+				headers: {
+					username: $username,
+					password: $password,
+					contentType: 'multipart/form-data'
+				},
+				body: formData
+			}).then(async (response) => {
+				if (!response.ok) {
+					const error = await response.json();
+					alert(`Error uploading files: ${error.error}`);
+				} else {
+					loadFolderContent();
+				}
+			});
+		};
+	}
 </script>
 
 <div class="bg-ctp-base border-ctp-surface1 flex min-w-36 flex-col gap-2 rounded-lg border-1 p-2">
@@ -58,5 +94,11 @@
 		onclick={createFile}
 	>
 		+ File
+	</button>
+	<button
+		class="text-ctp-text border-ctp-surface1 hover:border-ctp-peach cursor-pointer rounded-lg border-2 p-[6px] text-start transition-colors"
+		onclick={uploadFile}
+	>
+		+ Upload File
 	</button>
 </div>

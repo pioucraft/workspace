@@ -7,7 +7,7 @@ import {
 	renameSync,
 	mkdirSync,
 	rmSync,
-    cpSync
+	cpSync
 } from 'fs';
 import { normalize } from 'path';
 
@@ -68,9 +68,26 @@ export function deleteFileOrFolder(path: string) {
 }
 
 export function copyFileOrFolder(source: string, destination: string) {
-    let formatedSource = './data/' + source;
-    let formatedDestination = './data/' + destination;
+	let formatedSource = './data/' + source;
+	let formatedDestination = './data/' + destination;
 
-    cpSync(formatedSource, formatedDestination, { recursive: true, force: true });
+	cpSync(formatedSource, formatedDestination, { recursive: true, force: true });
 }
 
+export async function uploadFiles(path: string, files: File[]) {
+	console.log('Uploading files to:', path);
+	let formatedPath = './data/' + path;
+
+	for (const file of files) {
+		const filePath = normalize(`${formatedPath}/${file.name}`);
+
+		// make sure the parent directory exists
+		const parentDir = filePath.split('/').slice(0, -1).join('/');
+		mkdirSync(parentDir, { recursive: true });
+
+		const arrayBuffer = await file.arrayBuffer();
+		const buffer = Buffer.from(arrayBuffer);
+
+		writeFileSync(filePath, buffer);
+	}
+}

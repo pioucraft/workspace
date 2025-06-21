@@ -3,10 +3,9 @@
 	import Document from '$lib/components/svg/Document.svelte';
 	import Folder from '$lib/components/svg/Folder.svelte';
 	import { navigateToPath } from '$lib/scripts/filesystem';
-	import { folderContent, path } from '$lib/store/filesystem';
+	import { folderContent } from '$lib/store/filesystem';
 	import FolderContextMenu from './FolderContextMenu.svelte';
 	import FolderViewItemContextMenu from './FolderViewItemContextMenu.svelte';
-
 </script>
 
 <div

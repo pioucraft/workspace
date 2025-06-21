@@ -52,32 +52,32 @@
 		}
 	}
 
-    function copy() {
-        const newPath = prompt('Enter new name:', fileOrFolder.path);
-        if (!newPath) return;
+	function copy() {
+		const newPath = prompt('Enter new name:', fileOrFolder.path);
+		if (!newPath) return;
 
-        fetch('/api/filesystem/copy', {
-            method: 'POST',
-            headers: {
-                password: $password,
-                username: $username,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                oldPath: fileOrFolder.path,
-                newPath: newPath
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(error => {
-                    throw new Error(`Error copying: ${error.error}`);
-                });
-            }
-            loadFolderContent();
-        })
-        .catch(error => alert(error.message));
-    }
+		fetch('/api/filesystem/copy', {
+			method: 'POST',
+			headers: {
+				password: $password,
+				username: $username,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				oldPath: fileOrFolder.path,
+				newPath: newPath
+			})
+		})
+			.then((response) => {
+				if (!response.ok) {
+					return response.json().then((error) => {
+						throw new Error(`Error copying: ${error.error}`);
+					});
+				}
+				loadFolderContent();
+			})
+			.catch((error) => alert(error.message));
+	}
 </script>
 
 <div class="bg-ctp-base border-ctp-surface1 flex min-w-36 flex-col gap-2 rounded-lg border-1 p-2">
@@ -93,10 +93,10 @@
 	>
 		- Delete
 	</button>
-    	<button
+	<button
 		class="text-ctp-text border-ctp-surface1 hover:border-ctp-peach cursor-pointer rounded-lg border-2 p-[6px] text-start transition-colors"
 		onclick={copy}
 	>
-        ~ Copy 
+		~ Copy
 	</button>
 </div>

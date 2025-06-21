@@ -20,7 +20,7 @@
 				class="from-ctp-peach to-ctp-red cursor-pointer rounded-lg bg-gradient-to-br p-2 px-4 text-black transition-colors"
 				onclick={() => {
 					$response = $currentResponse;
-                    $currentResponse = '';
+					$currentResponse = '';
 				}}>Done</button
 			>
 		</div>

@@ -3,8 +3,6 @@
 >
 	<div class="text-ctp-text p-5">
 		<ul>
-			<li>- Drag and drop file/folder</li>
-			<hr />
 			<li>- Text editor for file</li>
 			<li>- Start advanced editor building</li>
 		</ul>
