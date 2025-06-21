@@ -42,7 +42,7 @@
 	/>
 
 	{#if $path !== '/'}
-		<button
+		<div
 			use:dropzone={{
 				on_dropzone(data: any) {
 					let targetPath = $path.split('/').slice(0, -1).join('/') + '/' + data.split('/').at(-1);
@@ -51,16 +51,19 @@
 					handleDropzone(targetPath, sourcePath);
 				}
 			}}
-			onclick={() => {
-				navigateToPath(`${$path.split('/').slice(0, -1).join('/')}`);
-			}}
-			class="border-ctp-surface1 hover:border-ctp-peach text-ctp-text fileOrFolder float-left m-3 flex h-36 w-36 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 p-2 transition-colors"
 		>
-			<div class="flex h-full w-full flex-col items-center justify-center gap-2">
-				<Folder />
-				<span class="text-ctp-text">../</span>
-			</div>
-		</button>
+			<button
+				onclick={() => {
+					navigateToPath(`${$path.split('/').slice(0, -1).join('/')}`);
+				}}
+				class="border-ctp-surface1 hover:border-ctp-peach text-ctp-text fileOrFolder float-left m-3 flex h-36 w-36 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 p-2 transition-colors"
+			>
+				<div class="flex h-full w-full flex-col items-center justify-center gap-2">
+					<Folder />
+					<span class="text-ctp-text">../</span>
+				</div>
+			</button>
+		</div>
 	{/if}
 
 	{#each $folderContent as fileOrFolder, i}
@@ -71,8 +74,7 @@
 				fileOrFolder: fileOrFolder
 			}}
 		/>
-		<button
-			use:draggable={fileOrFolder.path}
+		<div
 			use:dropzone={{
 				on_dropzone(data: any) {
 					let targetPath = fileOrFolder.path + '/' + data.split('/').at(-1);
@@ -85,18 +87,23 @@
 					handleDropzone(targetPath, sourcePath);
 				}
 			}}
-			onclick={() => {
-				navigateToPath(`${fileOrFolder.path}`);
-			}}
-			class="border-ctp-surface1 hover:border-ctp-peach text-ctp-text fileOrFolder float-left m-3 flex h-36 w-36 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 p-2 transition-colors"
-			id="folderViewItem-{i}"
 		>
-			{#if fileOrFolder.isDirectory}
-				<Folder />
-			{:else}
-				<Document />
-			{/if}
-			<span class="text-ctp-text">{fileOrFolder.name}</span>
-		</button>
+			<button
+				onclick={() => {
+					navigateToPath(`${fileOrFolder.path}`);
+				}}
+				class="border-ctp-surface1 hover:border-ctp-peach text-ctp-text fileOrFolder float-left m-3 flex h-36 w-36 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 p-2 transition-colors"
+				id="folderViewItem-{i}"
+			>
+				<div use:draggable={fileOrFolder.path} class="flex h-full w-full flex-col items-center justify-center gap-2">
+					{#if fileOrFolder.isDirectory}
+						<Folder />
+					{:else}
+						<Document />
+					{/if}
+					<span class="text-ctp-text">{fileOrFolder.name}</span>
+				</div>
+			</button>
+		</div>
 	{/each}
 </div>
