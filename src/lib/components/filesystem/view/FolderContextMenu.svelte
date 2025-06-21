@@ -45,11 +45,16 @@
 		loadFolderContent();
 	}
 
-	async function uploadFile() {
+	async function uploadFile(isFolder: boolean = false) {
 		const fileOrFolder = document.createElement('input');
 		fileOrFolder.type = 'file';
-		fileOrFolder.attributes.setNamedItem(document.createAttribute('multiple'));
-		fileOrFolder.attributes.setNamedItem(document.createAttribute('webkitdirectory'));
+
+		fileOrFolder.setAttribute('multiple', '');
+
+		if (isFolder) {
+			fileOrFolder.setAttribute('webkitdirectory', '');
+		}
+
 		fileOrFolder.click();
 		fileOrFolder.onchange = async () => {
 			const formData = new FormData();
@@ -97,8 +102,14 @@
 	</button>
 	<button
 		class="text-ctp-text border-ctp-surface1 hover:border-ctp-peach cursor-pointer rounded-lg border-2 p-[6px] text-start transition-colors"
-		onclick={uploadFile}
+		onclick={() => uploadFile(false)}
 	>
 		+ Upload File
+	</button>
+	<button
+		class="text-ctp-text border-ctp-surface1 hover:border-ctp-peach cursor-pointer rounded-lg border-2 p-[6px] text-start transition-colors"
+		onclick={() => uploadFile(true)}
+	>
+		+ Upload Folder
 	</button>
 </div>
