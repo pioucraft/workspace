@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, type Component } from 'svelte';
+	import { onMount } from 'svelte';
 
 	var showContextMenu = $state(false);
 	var mouseX = $state(0);
@@ -10,7 +10,7 @@
 		Element,
 		negativeQuery,
 		props
-	}: { parentsQuery: string; Element: Component; negativeQuery?: string; props?: any } = $props();
+	}: { parentsQuery: string; Element: any; negativeQuery?: string; props?: any } = $props();
 
 	onMount(() => {
 		window.addEventListener('contextmenu', (event) => {

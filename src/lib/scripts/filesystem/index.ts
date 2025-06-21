@@ -19,6 +19,7 @@ export function navigateToPath(newPath: string) {
 }
 
 export async function loadFolderContent() {
+    folderContent.set([]); // Clear current folder content before fetching new data
 	const folderContentFetch = await fetch(`/api/filesystem?path=${get(path)}`, {
 		headers: {
 			password: get(password),
