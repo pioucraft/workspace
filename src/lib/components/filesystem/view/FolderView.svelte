@@ -18,21 +18,6 @@
 		Element={FolderContextMenu}
 		negativeQuery=".fileOrFolder"
 	/>
-
-	{#if $path !== '/'}
-		<button
-			onclick={() => {
-				navigateToPath(`${$path.split('/').slice(0, -1).join('/')}`);
-			}}
-			class="border-ctp-surface1 hover:border-ctp-peach text-ctp-text fileOrFolder float-left m-3 flex h-36 w-36 cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 p-2 transition-colors"
-		>
-			<div class="flex h-full w-full flex-col items-center justify-center gap-2">
-				<Folder />
-				<span class="text-ctp-text">../</span>
-			</div>
-		</button>
-	{/if}
-
 	{#each $folderContent as fileOrFolder, i}
 		<ContextMenu
 			parentsQuery={`#folderViewItem-${i}`}

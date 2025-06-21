@@ -36,32 +36,32 @@ export function readFileOrFolder(path: string): {
 }
 
 export function modifyFileContent(path: string, content: string) {
-	let formatedPath = './data' + path;
+	let formatedPath = './data/' + path;
 
 	writeFileSync(formatedPath, content, 'utf-8');
 }
 
 export function moveFileOrFolder(source: string, destination: string) {
-	let formatedSource = './data' + source;
-	let formatedDestination = './data' + destination;
+	let formatedSource = './data/' + source;
+	let formatedDestination = './data/' + destination;
 
 	renameSync(formatedSource, formatedDestination);
 }
 
 export function createFile(path: string) {
-	let formatedPath = './data' + path;
+	let formatedPath = './data/' + path;
 
 	writeFileSync(formatedPath, '', 'utf-8');
 }
 
 export function createFolder(path: string) {
-	let formatedPath = './data' + path;
+	let formatedPath = './data/' + path;
 
 	mkdirSync(formatedPath);
 }
 
 export function deleteFileOrFolder(path: string) {
-	let formatedPath = './data' + path;
+	let formatedPath = './data/' + path;
 
 	rmSync(formatedPath, { recursive: true, force: true });
 }

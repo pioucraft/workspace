@@ -7,10 +7,7 @@
 	var { fileOrFolder }: { fileOrFolder: folderContentType } = $props();
 
 	async function rename() {
-		const newName = await ask('Enter new name:');
-		let splittedFileOrFolder = fileOrFolder.path.split('/');
-		splittedFileOrFolder[splittedFileOrFolder.length - 1] = newName;
-		const newPath = splittedFileOrFolder.join('/');
+		const newPath = await ask('Enter new name:', fileOrFolder.path);
 
 		const response = await fetch('/api/filesystem', {
 			method: 'PATCH',

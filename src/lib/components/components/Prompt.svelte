@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { display, text, response } from './Prompt';
-	var currentResponse: string = '';
+	import { display, text, response, currentResponse } from './Prompt';
 </script>
 
 {#if $display}
@@ -13,15 +12,15 @@
 			<p>{$text}</p>
 			<input
 				type="text"
-				bind:value={currentResponse}
+				bind:value={$currentResponse}
 				class="text-ctp-text border-ctp-surface0 focus:border-ctp-peach w-full rounded-lg border-2 p-2 transition-colors outline-none"
 				id="prompt-input"
 			/>
 			<button
 				class="from-ctp-peach to-ctp-red cursor-pointer rounded-lg bg-gradient-to-br p-2 px-4 text-black transition-colors"
 				onclick={() => {
-					$response = currentResponse;
-					currentResponse = '';
+					$response = $currentResponse;
+                    $currentResponse = '';
 				}}>Done</button
 			>
 		</div>
