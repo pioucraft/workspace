@@ -3,7 +3,6 @@
 >
 	<div class="text-ctp-text p-5">
 		<ul>
-			<li>- Move file/folder</li>
 			<li>- Copy and paste file/folder</li>
 			<li>- Drag and drop file/folder</li>
 			<hr />
