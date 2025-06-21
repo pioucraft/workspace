@@ -15,6 +15,6 @@
 	}
 </script>
 
-<div class="flex flex-col items-center justify-center w-full h-full">
-	<img src={base64ToImageUrl()} alt="Image" class="block w-full h-full object-contain" />
+<div class="flex h-full w-full flex-col items-center justify-center">
+	<img src={base64ToImageUrl()} alt="Image" class="block h-full w-full object-contain" />
 </div>

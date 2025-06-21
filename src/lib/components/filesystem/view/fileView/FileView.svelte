@@ -15,9 +15,7 @@
 		<TextEditor />
 	{:else if viewUnsupportedType}
 		<div class="h-full w-full">
-			<textarea class="h-full w-full" readonly>
-				{atob($fileContent)}
-			</textarea>
+			<textarea class="h-full w-full" readonly>{atob($fileContent)}</textarea>
 		</div>
 	{:else}
 		<p class="text-ctp-text">Unsupported file type: {$path}</p>

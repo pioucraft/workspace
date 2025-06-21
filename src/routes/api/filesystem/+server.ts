@@ -141,32 +141,31 @@ export async function DELETE({ request }: { request: Request }): Promise<Respons
 }
 
 export async function PUT({ request }: { request: Request }): Promise<Response> {
-    if (!(await loginMiddleware(request))) {
-        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-            status: 401,
-            headers: { 'Content-Type': 'application/json' }
-        });
-    }
+	if (!(await loginMiddleware(request))) {
+		return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+			status: 401,
+			headers: { 'Content-Type': 'application/json' }
+		});
+	}
 
-    const { path, content } = await request.json();
+	const { path, content } = await request.json();
 
-    try {
-        modifyFileContent(path, content);
-        return new Response(JSON.stringify({ success: true }), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
-        });
-    } catch (error) {
-        if (error instanceof Error && error.message.startsWith('ENOENT')) {
-            return new Response(JSON.stringify({ error: 'Path does not exist' }), {
-                status: 404,
-                headers: { 'Content-Type': 'application/json' }
-            });
-        }
-        return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' }
-        });
-    }
+	try {
+		modifyFileContent(path, content);
+		return new Response(JSON.stringify({ success: true }), {
+			status: 200,
+			headers: { 'Content-Type': 'application/json' }
+		});
+	} catch (error) {
+		if (error instanceof Error && error.message.startsWith('ENOENT')) {
+			return new Response(JSON.stringify({ error: 'Path does not exist' }), {
+				status: 404,
+				headers: { 'Content-Type': 'application/json' }
+			});
+		}
+		return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+			status: 500,
+			headers: { 'Content-Type': 'application/json' }
+		});
+	}
 }
-

@@ -8,28 +8,28 @@
 	let isSaved = true;
 
 	let newInterval = setInterval(async () => {
-        if($path)
-		if ($fileContent !== btoa(newFileContent)) {
-            await fetch("/api/filesystem", {
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'application/json',
-                    password: $password,
-                    username: $username
-                },
-                body: JSON.stringify({
-                    content: newFileContent,                    
-                    path: $path,
-                })
-            })
-			fileContent.set(btoa(newFileContent));
-		}
+		if ($path)
+			if ($fileContent !== btoa(newFileContent)) {
+				await fetch('/api/filesystem', {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+						password: $password,
+						username: $username
+					},
+					body: JSON.stringify({
+						content: newFileContent,
+						path: $path
+					})
+				});
+				fileContent.set(btoa(newFileContent));
+			}
 		isSaved = true;
 	}, 3000);
 
-    onDestroy(() => {
-        clearInterval(newInterval);
-    });
+	onDestroy(() => {
+		clearInterval(newInterval);
+	});
 </script>
 
 <div class="grid h-full w-full grid-rows-[2.5em_auto] gap-4">

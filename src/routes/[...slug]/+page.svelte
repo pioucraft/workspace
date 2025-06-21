@@ -8,7 +8,7 @@
 	import FileView from '$lib/components/filesystem/view/fileView/FileView.svelte';
 
 	onLoginConfirm(async () => {
-        await loadPath()
+		await loadPath();
 	});
 </script>
 
@@ -17,9 +17,9 @@
 >
 	<SideBar />
 	<TopBar />
-    {#if $folderContent}
-        <FolderView />
-    {:else}
-        <FileView />
-    {/if}
+	{#if $folderContent}
+		<FolderView />
+	{:else}
+		<FileView />
+	{/if}
 </div>
