@@ -1,6 +1,7 @@
 <script>
 	import { path, fileContent } from '$lib/store/filesystem';
 	import ImageView from './ImageView.svelte';
+	import MarkdownEditor from './MarkdownEditor.svelte';
 	import TextEditor from './TextEditor.svelte';
 
 	let viewUnsupportedType = false;
@@ -16,6 +17,10 @@
 	{:else if viewUnsupportedType}
 		<div class="h-full w-full">
 			<textarea class="h-full w-full" readonly>{atob($fileContent)}</textarea>
+		</div>
+	{:else if $path.endsWith('.md')}
+		<div class="h-full w-full">
+			<MarkdownEditor />
 		</div>
 	{:else}
 		<p class="text-ctp-text">Unsupported file type: {$path}</p>
