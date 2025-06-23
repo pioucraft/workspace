@@ -12,7 +12,7 @@
 	let renderMarkdown = false;
 
 	let newInterval = setInterval(async () => {
-        let fileContentToSave = newFileContent;
+		let fileContentToSave = newFileContent;
 		if ($fileContent !== btoa(fileContentToSave)) {
 			await fetch('/api/filesystem', {
 				method: 'PUT',
@@ -28,7 +28,7 @@
 			});
 			fileContent.set(btoa(fileContentToSave));
 		}
-        isSaved = newFileContent === atob($fileContent); 
+		isSaved = newFileContent === atob($fileContent);
 	}, 3000);
 
 	onDestroy(() => {
@@ -66,45 +66,45 @@
 </div>
 
 <style>
-    :global(.markdown-preview h1) {
-        font-size: 2em;
-        margin-top: 1em;
-        margin-bottom: 0.5em;
-    }
+	:global(.markdown-preview h1) {
+		font-size: 2em;
+		margin-top: 1em;
+		margin-bottom: 0.5em;
+	}
 
-    :global(.markdown-preview h2) {
-        font-size: 1.5em;
-        margin-top: 1em;
-        margin-bottom: 0.5em;
-    }
+	:global(.markdown-preview h2) {
+		font-size: 1.5em;
+		margin-top: 1em;
+		margin-bottom: 0.5em;
+	}
 
-    :global(.markdown-preview h3) {
-        font-size: 1.25em;
-        margin-top: 1em;
-        margin-bottom: 0.5em;
-    }
+	:global(.markdown-preview h3) {
+		font-size: 1.25em;
+		margin-top: 1em;
+		margin-bottom: 0.5em;
+	}
 
-    :global(.markdown-preview h4) {
-        font-size: 1em;
-        margin-top: 1em;
-        margin-bottom: 0.5em;
-    }
+	:global(.markdown-preview h4) {
+		font-size: 1em;
+		margin-top: 1em;
+		margin-bottom: 0.5em;
+	}
 
-    :global(.markdown-preview h5) {
-        font-size: 0.875em;
-        margin-top: 1em;
-        margin-bottom: 0.5em;
-    }
+	:global(.markdown-preview h5) {
+		font-size: 0.875em;
+		margin-top: 1em;
+		margin-bottom: 0.5em;
+	}
 
-    :global(.markdown-preview h6) {
-        font-size: 0.75em;
-        margin-top: 1em;
-        margin-bottom: 0.5em;
-    }
+	:global(.markdown-preview h6) {
+		font-size: 0.75em;
+		margin-top: 1em;
+		margin-bottom: 0.5em;
+	}
 
-    :global(.markdown-preview blockquote) {
-        border-left: 4px solid #ccc;
-        padding-left: 1em;
-        margin: 1em 0;
-    }
+	:global(.markdown-preview blockquote) {
+		border-left: 4px solid #ccc;
+		padding-left: 1em;
+		margin: 1em 0;
+	}
 </style>

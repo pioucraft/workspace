@@ -53,7 +53,7 @@
 	}
 
 	async function copy() {
-		const newPath = await ask("Enter new path to copy to:", fileOrFolder.path); 
+		const newPath = await ask('Enter new path to copy to:', fileOrFolder.path);
 		if (!newPath) return;
 
 		fetch('/api/filesystem/copy', {

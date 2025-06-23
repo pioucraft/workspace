@@ -8,7 +8,7 @@
 	let isSaved = true;
 
 	let newInterval = setInterval(async () => {
-        let fileContentToSave = newFileContent;
+		let fileContentToSave = newFileContent;
 		if ($fileContent !== btoa(fileContentToSave)) {
 			await fetch('/api/filesystem', {
 				method: 'PUT',
@@ -24,7 +24,7 @@
 			});
 			fileContent.set(btoa(fileContentToSave));
 		}
-        isSaved = newFileContent === atob($fileContent); 
+		isSaved = newFileContent === atob($fileContent);
 	}, 3000);
 
 	onDestroy(() => {
