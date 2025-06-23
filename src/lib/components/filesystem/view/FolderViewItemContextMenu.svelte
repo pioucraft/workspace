@@ -52,8 +52,8 @@
 		}
 	}
 
-	function copy() {
-		const newPath = prompt('Enter new name:', fileOrFolder.path);
+	async function copy() {
+		const newPath = await ask("Enter new path to copy to:", fileOrFolder.path); 
 		if (!newPath) return;
 
 		fetch('/api/filesystem/copy', {
