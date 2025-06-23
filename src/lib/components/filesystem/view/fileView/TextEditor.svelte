@@ -8,23 +8,23 @@
 	let isSaved = true;
 
 	let newInterval = setInterval(async () => {
-		if ($path)
-			if ($fileContent !== btoa(newFileContent)) {
-				await fetch('/api/filesystem', {
-					method: 'PUT',
-					headers: {
-						'Content-Type': 'application/json',
-						password: $password,
-						username: $username
-					},
-					body: JSON.stringify({
-						content: newFileContent,
-						path: $path
-					})
-				});
-				fileContent.set(btoa(newFileContent));
-			}
-		isSaved = true;
+        let fileContentToSave = newFileContent;
+		if ($fileContent !== btoa(fileContentToSave)) {
+			await fetch('/api/filesystem', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					password: $password,
+					username: $username
+				},
+				body: JSON.stringify({
+					content: newFileContent,
+					path: $path
+				})
+			});
+			fileContent.set(btoa(fileContentToSave));
+		}
+        isSaved = newFileContent === atob($fileContent); 
 	}, 3000);
 
 	onDestroy(() => {
