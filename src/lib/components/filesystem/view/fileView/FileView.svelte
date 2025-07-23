@@ -3,6 +3,7 @@
 	import ImageView from './ImageView.svelte';
 	import MarkdownEditor from './MarkdownEditor.svelte';
 	import TextEditor from './TextEditor.svelte';
+	import WorkEditor from './WorkEditor.svelte';
 
 	let viewUnsupportedType = false;
 </script>
@@ -22,6 +23,8 @@
 		<div class="h-full w-full">
 			<MarkdownEditor />
 		</div>
+	{:else if $path.endsWith('.work')}
+		<WorkEditor />
 	{:else}
 		<p class="text-ctp-text">Unsupported file type: {$path}</p>
 		<button
