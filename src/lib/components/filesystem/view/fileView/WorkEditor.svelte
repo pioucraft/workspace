@@ -89,9 +89,12 @@
 	function parseDocumentLineLive() {
 		let editor = document.getElementById('editor') as HTMLDivElement;
 
+        // Because of some contenteditable quirks, we need to ensure that the first child is wrapped in a div to make everything else work properly.
 		let firstChild = editor.firstChild as Node;
 		// @ts-ignore
 		if (firstChild.tagName == undefined) {
+			console.log('firstChild is not an element, creating a new div');
+			console.log(`<div>${firstChild.textContent}</div>`);
 			editor.innerHTML = `<div>${firstChild.textContent}</div>`;
 			// set the carret position to the end of the newly created div
 			let range = document.createRange();
@@ -104,9 +107,14 @@
 			return;
 		}
 
+        // Now, we can parse the content of the editor
 		let selection = window.getSelection();
 		let selectedElement = selection?.anchorNode as HTMLElement;
+		if (selectedElement == editor) return;
+
+        // for the caret position, later...
 		let selectionOffset = selection?.anchorOffset || 0;
+
 		let parentElement = selectedElement.parentElement as HTMLElement;
 		if (parentElement == editor) return;
 
@@ -114,6 +122,7 @@
 		parentElement.outerHTML = parseDocumentLine(parentElement.innerHTML || '', uuid);
 		parentElement = document.querySelector(`[data-uuid='${uuid}']`) as HTMLElement;
 
+        // place the caret at the correct position
 		let range = document.createRange();
 		range.setStart(parentElement.firstChild as ChildNode, selectionOffset);
 		range.collapse(true);
@@ -146,6 +155,10 @@
 		}
 		return '';
 	}
+
+	function setInitialInnerHTML(node: HTMLElement) {
+		node.innerHTML = newFileContent;
+	}
 </script>
 
 <div class="grid h-full w-full grid-rows-[2.5em_auto] gap-4">
@@ -159,12 +172,13 @@
 	{#if workFileType == 'document'}
 		<div
 			oninput={() => {
+                newFileContent = (document.getElementById('editor') as HTMLDivElement).innerHTML;
 				isSaved = false;
 				parseDocumentLineLive();
 			}}
 			contenteditable="true"
 			id="editor"
-			bind:innerHTML={newFileContent}
+			use:setInitialInnerHTML
 		></div>
 	{:else}
 		<div class="bg-ctp-red rounded-lg p-4 text-black">
