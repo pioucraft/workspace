@@ -12,7 +12,8 @@
 
 	let newInterval = setInterval(async () => {
 		let fileContentToSave = unParseWorkFile(newFileContent, workFileType);
-        console.log('Saving file content:', fileContentToSave);
+
+		console.log('Saving file content:', fileContentToSave);
 		if ($fileContent !== btoa(fileContentToSave)) {
 			await fetch('/api/filesystem', {
 				method: 'PUT',
@@ -47,28 +48,72 @@
 	function parseWorkFile(content: string, type: string): string {
 		if (type === 'document') {
 			let splittedParsedContent = content.split('\n').slice(1); // Remove metadata line
+			if (splittedParsedContent.length == 0) {
+                return "<div><br></div>"
+			}
 
-            splittedParsedContent = splittedParsedContent.map(line => {
-                return line
-            });
+			splittedParsedContent = splittedParsedContent.map((line) => {
+                if(line == "") {
+					return '<div><br></div>';
+				} else {
+                    return parseDocumentLine(line);
+				}
+			});
 
-			return splittedParsedContent.join('\n');
+            console.log(splittedParsedContent)
+			return splittedParsedContent.join("");
 		}
 		return '';
 	}
+
+    function parseDocumentLine(line: string): string {
+        if (line.startsWith("# ")) {
+            return `<h1>${line}</h1>`;
+        }
+        return `<div>${line}</div>`;
+    }
+
+    function parseDocumentLineLive() {
+        let editor = document.getElementById("editor") as HTMLDivElement;
+        console.log(editor.innerHTML);
+
+        let firstChild = editor.firstChild as Node;
+        // @ts-ignore
+        if(firstChild.tagName == undefined) {
+            editor.innerHTML = `<div>${firstChild.textContent}</div>`;
+            // set the carret position to the end of the newly created div
+            let range = document.createRange();
+            let selection = window.getSelection();
+            // @ts-ignore
+            range.setStart(editor.firstChild, editor.firstChild.textContent.length);
+            range.collapse(true);
+            selection?.removeAllRanges();
+            selection?.addRange(range);
+            return;
+        }
+    }
 
 	function unParseWorkFile(content: string, type: string) {
 		if (type === 'document') {
 			let metadata = JSON.stringify({ type: 'document', version: '1.0' });
 
-            if(content == "<br>") {
-                return metadata + '\n';
-            }
+			if (content == '<br>') {
+				return metadata + '\n';
+			}
 
-            let contentDom = new DOMParser().parseFromString(content, 'text/html');
-            console.log(contentDom);
-            
-            return metadata + "\n" + content
+			let contentDom = new DOMParser().parseFromString(content, 'text/html');
+            let lines: string[] = [];
+			let childrenNodes = contentDom.body.children;
+
+			for (let i = 0; i < childrenNodes.length; i++) {
+				if (childrenNodes[i].innerHTML == '<br>') {
+					lines.push('');
+				} else {
+					lines.push(childrenNodes[i].textContent || '');
+				}
+			}
+
+			return metadata + '\n' + lines.join('\n');
 		}
 		return '';
 	}
@@ -84,10 +129,13 @@
 	</div>
 	{#if workFileType == 'document'}
 		<div
-			oninput={() => (isSaved = false)}
+			oninput={() => {
+                isSaved = false;
+                parseDocumentLineLive();
+            }}
 			contenteditable="true"
 			id="editor"
-			bind:innerHTML={newFileContent}
+            bind:innerHTML={newFileContent}
 		></div>
 	{:else}
 		<div class="bg-ctp-red rounded-lg p-4 text-black">
