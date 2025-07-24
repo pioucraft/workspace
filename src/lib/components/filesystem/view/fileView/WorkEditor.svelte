@@ -13,7 +13,6 @@
 	let newInterval = setInterval(async () => {
 		let fileContentToSave = unParseWorkFile(newFileContent, workFileType);
 
-		console.log('Saving file content:', fileContentToSave);
 		if ($fileContent !== btoa(fileContentToSave)) {
 			await fetch('/api/filesystem', {
 				method: 'PUT',
@@ -49,49 +48,79 @@
 		if (type === 'document') {
 			let splittedParsedContent = content.split('\n').slice(1); // Remove metadata line
 			if (splittedParsedContent.length == 0) {
-                return "<div><br></div>"
+				return '<div><br></div>';
 			}
 
 			splittedParsedContent = splittedParsedContent.map((line) => {
-                if(line == "") {
+				if (line == '') {
 					return '<div><br></div>';
 				} else {
-                    return parseDocumentLine(line);
+					return parseDocumentLine(line, undefined);
 				}
 			});
 
-            console.log(splittedParsedContent)
-			return splittedParsedContent.join("");
+			return splittedParsedContent.join('');
 		}
 		return '';
 	}
 
-    function parseDocumentLine(line: string): string {
-        if (line.startsWith("# ")) {
-            return `<h1>${line}</h1>`;
-        }
-        return `<div>${line}</div>`;
-    }
+	function parseDocumentLine(line: string, uuid: string | undefined): string {
+		if (uuid == undefined) {
+			uuid = crypto.randomUUID();
+		}
+		if (line.startsWith('# ')) {
+			return `<h1 data-uuid='${uuid}'>${line}</h1>`;
+		} else if (line.startsWith('## ')) {
+			return `<h2 data-uuid='${uuid}'>${line}</h2>`;
+		} else if (line.startsWith('### ')) {
+			return `<h3 data-uuid='${uuid}'>${line}</h3>`;
+		} else if (line.startsWith('#### ')) {
+			return `<h4 data-uuid='${uuid}'>${line}</h4>`;
+		} else if (line.startsWith('##### ')) {
+			return `<h5 data-uuid='${uuid}'>${line}</h5>`;
+		} else if (line.startsWith('###### ')) {
+			return `<h6 data-uuid='${uuid}'>${line}</h6>`;
+		} else if (line.startsWith('> ') || line.startsWith('&gt; ')) {
+			return `<blockquote data-uuid='${uuid}'>${line}</blockquote>`;
+		}
+		return `<div data-uuid='${uuid}'>${line}</div>`;
+	}
 
-    function parseDocumentLineLive() {
-        let editor = document.getElementById("editor") as HTMLDivElement;
-        console.log(editor.innerHTML);
+	function parseDocumentLineLive() {
+		let editor = document.getElementById('editor') as HTMLDivElement;
 
-        let firstChild = editor.firstChild as Node;
-        // @ts-ignore
-        if(firstChild.tagName == undefined) {
-            editor.innerHTML = `<div>${firstChild.textContent}</div>`;
-            // set the carret position to the end of the newly created div
-            let range = document.createRange();
-            let selection = window.getSelection();
-            // @ts-ignore
-            range.setStart(editor.firstChild, editor.firstChild.textContent.length);
-            range.collapse(true);
-            selection?.removeAllRanges();
-            selection?.addRange(range);
-            return;
-        }
-    }
+		let firstChild = editor.firstChild as Node;
+		// @ts-ignore
+		if (firstChild.tagName == undefined) {
+			editor.innerHTML = `<div>${firstChild.textContent}</div>`;
+			// set the carret position to the end of the newly created div
+			let range = document.createRange();
+			let selection = window.getSelection();
+			// @ts-ignore
+			range.setStart(editor.firstChild as ChildNode, editor.firstChild.textContent.length);
+			range.collapse(true);
+			selection?.removeAllRanges();
+			selection?.addRange(range);
+			return;
+		}
+
+		let selection = window.getSelection();
+		let selectedElement = selection?.anchorNode as HTMLElement;
+		let selectionOffset = selection?.anchorOffset || 0;
+		let parentElement = selectedElement.parentElement as HTMLElement;
+		if (parentElement == editor) return;
+
+		let uuid = crypto.randomUUID();
+		parentElement.outerHTML = parseDocumentLine(parentElement.innerHTML || '', uuid);
+		parentElement = document.querySelector(`[data-uuid='${uuid}']`) as HTMLElement;
+
+		let range = document.createRange();
+		range.setStart(parentElement.firstChild as ChildNode, selectionOffset);
+		range.collapse(true);
+		let newSelection = window.getSelection();
+		newSelection?.removeAllRanges();
+		newSelection?.addRange(range);
+	}
 
 	function unParseWorkFile(content: string, type: string) {
 		if (type === 'document') {
@@ -102,7 +131,7 @@
 			}
 
 			let contentDom = new DOMParser().parseFromString(content, 'text/html');
-            let lines: string[] = [];
+			let lines: string[] = [];
 			let childrenNodes = contentDom.body.children;
 
 			for (let i = 0; i < childrenNodes.length; i++) {
@@ -130,12 +159,12 @@
 	{#if workFileType == 'document'}
 		<div
 			oninput={() => {
-                isSaved = false;
-                parseDocumentLineLive();
-            }}
+				isSaved = false;
+				parseDocumentLineLive();
+			}}
 			contenteditable="true"
 			id="editor"
-            bind:innerHTML={newFileContent}
+			bind:innerHTML={newFileContent}
 		></div>
 	{:else}
 		<div class="bg-ctp-red rounded-lg p-4 text-black">
@@ -147,5 +176,25 @@
 <style>
 	:global(#editor h1) {
 		font-size: 2em;
+	}
+	:global(#editor h2) {
+		font-size: 1.5em;
+	}
+	:global(#editor h3) {
+		font-size: 1.17em;
+	}
+	:global(#editor h4) {
+		font-size: 1em;
+	}
+	:global(#editor h5) {
+		font-size: 0.83em;
+	}
+	:global(#editor h6) {
+		font-size: 0.67em;
+	}
+	:global(#editor blockquote) {
+		margin: 0;
+		padding: 0.5em 1em;
+		border-left: 4px solid #ccc;
 	}
 </style>
