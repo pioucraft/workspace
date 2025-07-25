@@ -64,23 +64,28 @@
 		return '';
 	}
 
-	function parseDocumentLine(line: string, uuid: string | undefined): string {
+	function parseDocumentLine(line: string, uuid: string | undefined, focused: boolean = false): string {
+		line = line.replaceAll(' ', '&nbsp;');
+        line = line.replaceAll('\t', '&nbsp;&nbsp;&nbsp;&nbsp;'); // Replace tabs with 4 spaces
+        line = line.replaceAll(">", '&gt;');
+        // fetch [label](url) and convert it to a link
+        line = line.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 		if (uuid == undefined) {
 			uuid = crypto.randomUUID();
 		}
-		if (line.startsWith('# ')) {
+		if (line.startsWith('#&nbsp;')) {
 			return `<h1 data-uuid='${uuid}'>${line}</h1>`;
-		} else if (line.startsWith('## ')) {
+		} else if (line.startsWith('##&nbsp;')) {
 			return `<h2 data-uuid='${uuid}'>${line}</h2>`;
-		} else if (line.startsWith('### ')) {
+		} else if (line.startsWith('###&nbsp;')) {
 			return `<h3 data-uuid='${uuid}'>${line}</h3>`;
-		} else if (line.startsWith('#### ')) {
+		} else if (line.startsWith('####&nbsp;')) {
 			return `<h4 data-uuid='${uuid}'>${line}</h4>`;
-		} else if (line.startsWith('##### ')) {
+		} else if (line.startsWith('#####&nbsp;')) {
 			return `<h5 data-uuid='${uuid}'>${line}</h5>`;
-		} else if (line.startsWith('###### ')) {
+		} else if (line.startsWith('######&nbsp;')) {
 			return `<h6 data-uuid='${uuid}'>${line}</h6>`;
-		} else if (line.startsWith('> ') || line.startsWith('&gt; ')) {
+		} else if (line.startsWith('&gt;&nbsp;')) {
 			return `<blockquote data-uuid='${uuid}'>${line}</blockquote>`;
 		}
 		return `<div data-uuid='${uuid}'>${line}</div>`;
@@ -89,7 +94,7 @@
 	function parseDocumentLineLive() {
 		let editor = document.getElementById('editor') as HTMLDivElement;
 
-        // Because of some contenteditable quirks, we need to ensure that the first child is wrapped in a div to make everything else work properly.
+		// Because of some contenteditable quirks, we need to ensure that the first child is wrapped in a div to make everything else work properly.
 		let firstChild = editor.firstChild as Node;
 		// @ts-ignore
 		if (firstChild.tagName == undefined) {
@@ -107,12 +112,12 @@
 			return;
 		}
 
-        // Now, we can parse the content of the editor
+		// Now, we can parse the content of the editor
 		let selection = window.getSelection();
 		let selectedElement = selection?.anchorNode as HTMLElement;
 		if (selectedElement == editor) return;
 
-        // for the caret position, later...
+		// for the caret position, later...
 		let selectionOffset = selection?.anchorOffset || 0;
 
 		let parentElement = selectedElement.parentElement as HTMLElement;
@@ -122,7 +127,7 @@
 		parentElement.outerHTML = parseDocumentLine(parentElement.innerHTML || '', uuid);
 		parentElement = document.querySelector(`[data-uuid='${uuid}']`) as HTMLElement;
 
-        // place the caret at the correct position
+		// place the caret at the correct position
 		let range = document.createRange();
 		range.setStart(parentElement.firstChild as ChildNode, selectionOffset);
 		range.collapse(true);
@@ -147,7 +152,7 @@
 				if (childrenNodes[i].innerHTML == '<br>') {
 					lines.push('');
 				} else {
-					lines.push(childrenNodes[i].textContent || '');
+					lines.push(childrenNodes[i].innerHTML.replaceAll(' ', '&nbsp;') || '');
 				}
 			}
 
@@ -172,7 +177,7 @@
 	{#if workFileType == 'document'}
 		<div
 			oninput={() => {
-                newFileContent = (document.getElementById('editor') as HTMLDivElement).innerHTML;
+				newFileContent = (document.getElementById('editor') as HTMLDivElement).innerHTML;
 				isSaved = false;
 				parseDocumentLineLive();
 			}}
@@ -209,6 +214,8 @@
 	:global(#editor blockquote) {
 		margin: 0;
 		padding: 0.5em 1em;
+		margin-top: 0.5em;
+		margin-bottom: 0.5em;
 		border-left: 4px solid #ccc;
 	}
 </style>
