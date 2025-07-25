@@ -64,12 +64,11 @@
 		return '';
 	}
 
-	function parseDocumentLine(line: string, uuid: string | undefined, focused: boolean = false): string {
+	function parseDocumentLine(line: string, uuid: string | undefined): string {
 		line = line.replaceAll(' ', '&nbsp;');
         line = line.replaceAll('\t', '&nbsp;&nbsp;&nbsp;&nbsp;'); // Replace tabs with 4 spaces
         line = line.replaceAll(">", '&gt;');
-        // fetch [label](url) and convert it to a link
-        line = line.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+
 		if (uuid == undefined) {
 			uuid = crypto.randomUUID();
 		}
